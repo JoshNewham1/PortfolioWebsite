@@ -16,7 +16,6 @@ const hoveredSiblingPlugin = plugin(function ({ addVariant, e }) {
 
 const themesConfig = plugin(function ({ addComponents }) {
   const cssVars = {};
-
   Object.keys(COLOR_THEMES[THEME].colors).forEach((key) => {
     cssVars[`--color-${key}`] = `${COLOR_THEMES[THEME].colors[key]}`;
   });
