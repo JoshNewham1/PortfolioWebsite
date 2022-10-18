@@ -10,11 +10,13 @@ import linkedInIcon from "../public/linkedin.svg";
 import gitHubIcon from "../public/github.png";
 import emailIcon from "../public/email.svg";
 import Image from "next/image";
+import NavBar from "../components/NavBar";
 
 export default function Index({ posts, globalData }) {
   return (
     <Layout>
       <SEO title={globalData.name} description={globalData.blogTitle} />
+      <NavBar />
       <Header name={globalData.name} />
       <main className="w-full"></main>
       <Image src={profilePic} alt="A picture of me!" width={150} height={150} />
@@ -43,6 +45,16 @@ export default function Index({ posts, globalData }) {
         <a className="mr-2" href="mailto:joshnewham@live.com" rel="noreferrer">
           <Image src={emailIcon} alt="Email me" width={48} height={48} />
         </a>
+      </div>
+      <h2 className="mt-4 font-semibold text-xl">Bio</h2>
+      <div className="bio mt-4 border-2 rounded-md border-black dark:border-white">
+        <p className="p-4">
+          A budding software consultant with experience in web development,
+          solutions design and databases. I love working in teams, solving
+          real-world problems and delivering meaningful change. Learning new
+          technologies along the way is always enjoyable as I progress towards
+          becoming a full-stack developer.
+        </p>
       </div>
       <Footer copyrightText={globalData.footerText} />
       <GradientBackground
