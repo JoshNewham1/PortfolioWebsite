@@ -23,6 +23,7 @@ export default function Index({ posts, globalData }) {
           className="mr-2"
           href="https://www.linkedin.com/in/josh-n-688619189/"
           target="_blank"
+          rel="noreferrer"
         >
           <Image
             src={linkedInIcon}
@@ -35,10 +36,11 @@ export default function Index({ posts, globalData }) {
           className="mr-2"
           href="https://github.com/JoshNewham1"
           target="_blank"
+          rel="noreferrer"
         >
           <Image src={gitHubIcon} alt="GitHub profile" width={48} height={48} />
         </a>
-        <a className="mr-2" href="mailto:joshnewham@live.com">
+        <a className="mr-2" href="mailto:joshnewham@live.com" rel="noreferrer">
           <Image src={emailIcon} alt="Email me" width={48} height={48} />
         </a>
       </div>
