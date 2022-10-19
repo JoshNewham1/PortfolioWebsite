@@ -11,6 +11,8 @@ import gitHubIcon from "../public/github.png";
 import emailIcon from "../public/email.svg";
 import Image from "next/image";
 import NavBar from "../components/NavBar";
+import skills from "../public/skills.json";
+import Skill from "../components/Skill";
 
 export default function Index({ posts, globalData }) {
   return (
@@ -46,7 +48,8 @@ export default function Index({ posts, globalData }) {
           <Image src={emailIcon} alt="Email me" width={48} height={48} />
         </a>
       </div>
-      <h2 className="mt-4 font-semibold text-xl">Bio</h2>
+      {/* Bio */}
+      <h2 className="mt-4 font-bold text-xl">Bio</h2>
       <div className="bio mt-4 border-2 rounded-md border-black dark:border-white">
         <p className="p-4">
           A budding software consultant with experience in web development,
@@ -56,6 +59,19 @@ export default function Index({ posts, globalData }) {
           becoming a full-stack developer.
         </p>
       </div>
+      {/* Skills section */}
+      <h2 className="mt-4 font-bold text-xl">Skills</h2>
+      {skills?.types?.map((t) => (
+        <div className="mb-8 w-full" key={"type-" + t.name}>
+          <h2 className="ml-2 font-semibold">{t.name}</h2>
+          <div className="mt-4 grid grid-cols-2 md:grid-cols-3">
+            {t.skills.map((s) => (
+              <Skill skill={s} key={"skill-" + s.name} />
+            ))}
+          </div>
+        </div>
+      ))}
+
       <Footer copyrightText={globalData.footerText} />
       <GradientBackground
         variant="large"
