@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import path from "path";
 
-export default (_, res) => {
+const CV = (_, res) => {
   const pdfPath = path.join(process.cwd(), "public", "cv.pdf");
   const pdfContent = readFileSync(pdfPath);
   res.setHeader("Content-Type", "application/pdf");
@@ -11,3 +11,5 @@ export default (_, res) => {
   );
   res.send(pdfContent);
 };
+
+export default CV;

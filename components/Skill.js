@@ -20,7 +20,13 @@ export default function Skill({ skill }) {
         {/* Title and info button */}
         <h2 className="mb-2 mr-2">{skill.name}</h2>{" "}
         <button ref={setTriggerRef}>
-          <Image className="z-0" src={infoIcon} height={24} width={24} />
+          <Image
+            className="z-0"
+            alt="More info"
+            src={infoIcon}
+            height={24}
+            width={24}
+          />
         </button>
       </div>
 
