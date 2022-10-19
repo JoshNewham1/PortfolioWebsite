@@ -25,7 +25,7 @@ export default function SideProjects() {
 
           <div className="md:flex md:flex-row">
             <div className="basis-[780px]">
-              <Image src={shopgreenImage} />
+              <Image src={shopgreenImage} alt="ShopGreen's interface" />
             </div>
             <p className="md:ml-4 mt-2">
               ShopGreen is a work in progress app that will compare prices for
@@ -40,14 +40,16 @@ export default function SideProjects() {
             When completed and ready for the market, it will:
           </p>
           <ul className="pl-8 list-disc">
-            <li>Scrape supermarkets' websites for products and prices daily</li>
             <li>
-              Allow you to build up a "generic basket" across all of them,
-              focusing on recipes rather than ingredients
+              Scrape supermarkets&lsquo; websites for products and prices daily
+            </li>
+            <li>
+              Allow you to build up a &ldquo;generic basket&ldquo; across all of
+              them, focusing on recipes rather than ingredients
             </li>
             <li>Calculate the best deal</li>
             <li>
-              Auto-add the ingredients to the chosen supermarket's website
+              Auto-add the ingredients to the chosen supermarket&lsquo;s website
             </li>
             <li>
               Approximate your carbon footprint based on shops and give you
@@ -66,7 +68,7 @@ export default function SideProjects() {
           <h3 className="mb-4 text-sm italic">
             September 2019 - July 2020 (A-Level Project)
           </h3>
-          <Image src={gobiImage} />
+          <Image src={gobiImage} alt="GOBI's interface" />
           <p className="mt-2">
             GOBI is a photo organiser aimed at mobile phone galleries that ranks
             images with a neural network and find ones that it deems blurry or
