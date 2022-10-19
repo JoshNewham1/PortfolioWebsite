@@ -2,6 +2,7 @@ import SkillLevel from "./SkillLevel";
 import { usePopperTooltip } from "react-popper-tooltip";
 import infoIcon from "../public/info.png";
 import Image from "next/image";
+import Card from "./Card";
 
 const skillLevelDescriptions = {
   1: "Still learning",
@@ -15,7 +16,7 @@ export default function Skill({ skill }) {
   const { getTooltipProps, setTooltipRef, setTriggerRef, visible } =
     usePopperTooltip({ placement: "top" });
   return (
-    <div className="p-6 rounded-lg shadow-lg bg-white dark:bg-gray-700 mr-1 ml-1 mb-2 md:mr-4 md:ml-4 md:mb-4">
+    <Card>
       <div className="flex flex-row">
         {/* Title and info button */}
         <h2 className="mb-2 mr-2">{skill.name}</h2>{" "}
@@ -45,6 +46,6 @@ export default function Skill({ skill }) {
           {skill.description}
         </div>
       )}
-    </div>
+    </Card>
   );
 }
