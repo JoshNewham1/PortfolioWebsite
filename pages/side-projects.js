@@ -71,7 +71,7 @@ export default function SideProjects() {
           <Image src={gobiImage} alt="GOBI's interface" />
           <p className="mt-2">
             GOBI is a photo organiser aimed at mobile phone galleries that ranks
-            images with a neural network and find ones that it deems blurry or
+            images with a neural network and finds ones that it deems blurry or
             of low quality and recommend their removal. A video demo is linked{" "}
             <a
               className="underline text-purple-400"
