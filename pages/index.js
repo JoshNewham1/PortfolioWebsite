@@ -13,8 +13,11 @@ import Image from "next/image";
 import NavBar from "../components/NavBar";
 import skills from "../public/skills.json";
 import Skill from "../components/Skill";
+import { Textbox } from "../components/Textbox";
+import { useState } from "react";
 
 export default function Index({ posts, globalData }) {
+  const [skillSearch, setSkillSearch] = useState("");
   return (
     <Layout>
       <SEO title={globalData.name} description={globalData.blogTitle} />
@@ -59,15 +62,30 @@ export default function Index({ posts, globalData }) {
           becoming a full-stack developer.
         </p>
       </div>
+
       {/* Skills section */}
       <h2 className="mt-4 font-bold text-xl">Skills</h2>
+      <Textbox
+        className="mt-4 mb-4 w-2/3"
+        placeholder="Search"
+        value={skillSearch}
+        onChange={(e) => setSkillSearch(e.target.value)}
+      />
+
       {skills?.types?.map((t) => (
         <div className="mb-8 w-full" key={"type-" + t.name}>
           <h2 className="ml-2 font-semibold">{t.name}</h2>
           <div className="mt-4 grid grid-cols-2 md:grid-cols-3">
-            {t.skills.map((s) => (
-              <Skill skill={s} key={"skill-" + s.name} />
-            ))}
+            {t.skills
+              .filter(
+                (s) =>
+                  s.name.toLowerCase().includes(skillSearch) ||
+                  (skillSearch.length > 1 &&
+                    s.description.toLowerCase().includes(skillSearch))
+              )
+              .map((s) => (
+                <Skill skill={s} key={"skill-" + s.name} />
+              ))}
           </div>
         </div>
       ))}
