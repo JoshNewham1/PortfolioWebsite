@@ -33,7 +33,7 @@ export default function Skill({ skill }) {
           ref={setTooltipRef}
           {...getTooltipProps({
             className:
-              "tooltip-container p-4 rounded-lg shadow-lg bg-white dark:bg-gray-700 md:w-96",
+              "tooltip-container p-4 rounded-lg shadow-lg bg-white dark:bg-gray-700 md:w-96 z-10",
           })}
         >
           {skill.description}
