@@ -79,9 +79,11 @@ export default function Index({ posts, globalData }) {
             {t.skills
               .filter(
                 (s) =>
-                  s.name.toLowerCase().includes(skillSearch) ||
+                  s.name.toLowerCase().includes(skillSearch.toLowerCase()) ||
                   (skillSearch.length > 1 &&
-                    s.description.toLowerCase().includes(skillSearch))
+                    s.description
+                      .toLowerCase()
+                      .includes(skillSearch.toLowerCase()))
               )
               .map((s) => (
                 <Skill skill={s} key={"skill-" + s.name} />
