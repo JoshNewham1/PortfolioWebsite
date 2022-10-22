@@ -19,9 +19,15 @@ export default function Layout({ children }) {
     const systemDarkMode =
       window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const darkMode = localStorage.getItem("theme") === "dark" || systemDarkMode;
-    const lightMode =
-      localStorage.getItem("theme") === "light" || !systemDarkMode;
+    let darkMode = localStorage.getItem("theme") === "dark";
+    let lightMode = localStorage.getItem("theme") === "light";
+
+    // If the local storage hasn't been set (i.e. they haven't visited before)
+    // Use the system's dark mode preference
+    if (!localStorage.getItem("theme")) {
+      darkMode = systemDarkMode;
+      lightMode = !systemDarkMode;
+    }
 
     if (darkMode) {
       document.documentElement.classList.add("dark");
