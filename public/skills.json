@@ -6,7 +6,7 @@
         {
           "name": "React",
           "skillLevel": 3,
-          "description": "I have a few years' experience using React in my own projects to produce responsive, modern web apps. It is mostly self-taught through trial-and-error and YouTube tutorials. I have never used it in a production environment but feel confident I could productionise my code."
+          "description": "I have a few years' experience using React in my own projects to produce responsive, modern web apps. It is mostly self-taught through a book and some YouTube tutorials. I have never used it in a production environment but feel confident I could productionise my code."
         },
         {
           "name": "Next JS",
@@ -52,6 +52,11 @@
           "name": "C#",
           "skillLevel": 3,
           "description": "C# was one of the first languages I learnt and I enjoy using it for little side projects, but I haven't used it in any large project or productionised any C# code."
+        },
+        {
+          "name": "Haskell",
+          "skillLevel": 2,
+          "description": "I have learnt Haskell as part of a functional programming course at university and love its type system and focus on batch-processing."
         }
       ]
     },
@@ -62,6 +67,11 @@
           "name": "SQL",
           "skillLevel": 5,
           "description": "I've used SQL consistently for a few years and thoroughly enjoy writing and optimising queries for BI reporting. I've worked with all the major RDBMSs and am comfortable with Microsoft SQL Server, PostgreSQL, MySQL and Oracle syntax."
+        },
+        {
+          "name": "MongoDB",
+          "skillLevel": 3,
+          "description": "I've used MongoDB in one of my side-projects to store and query geospatial data. I found understanding NoSQL and its use cases very interesting and can definitely see myself using it in future projects if a non-relational use case arises."
         },
         {
           "name": "ETL",
