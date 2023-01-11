@@ -25,7 +25,7 @@
         },
         {
           "name": "PHP",
-          "skillLevel": 3,
+          "skillLevel": 4,
           "description": "While I prefer JavaScript-based web apps, I have had some experience in industry creating a supplier invoice portal from scratch in PHP and can use it if needed. I may need some training on best practices to use it in a larger scale application."
         }
       ]
@@ -45,7 +45,7 @@
         },
         {
           "name": "TypeScript",
-          "skillLevel": 3,
+          "skillLevel": 4,
           "description": "Having recognised some of the weaknesses of JavaScript's type system, I taught myself TypeScript to build more robust production apps. I have built a couple of side projects in this way and find it really enjoyable and worth the time investment."
         },
         {
@@ -55,7 +55,7 @@
         },
         {
           "name": "Haskell",
-          "skillLevel": 2,
+          "skillLevel": 3,
           "description": "I have learnt Haskell as part of a functional programming course at university and love its type system and focus on batch-processing."
         }
       ]
@@ -92,6 +92,11 @@
           "name": "Power Apps",
           "skillLevel": 4,
           "description": "To offer useful and cost-effective solutions to smaller clients, I would use Power Apps to create fully validated apps for data manipulation in databases. This included an app currently used on the factory floor to replace paper production sheets and calculate machine throughput and efficiency."
+        },
+        {
+          "name": "Power Portals",
+          "skillLevel": 5,
+          "description": "I am confident in developing / customising Microsoft Power Portals after using it to build a low-code invoice portal for an NHS client that focused on development speed and reliability. I guided the client through the licensing model and the portal is currently serving thousands of suppliers."
         }
       ]
     }

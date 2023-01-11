@@ -5,6 +5,7 @@ import Layout, { GradientBackground } from "../components/Layout";
 import NavBar from "../components/NavBar";
 import SEO from "../components/SEO";
 import gobiImage from "../public/gobi.png";
+import beerTastingImage from "../public/kug-beer-tasting.jpg";
 import shopgreenImage from "../public/shopgreen.png";
 import { getGlobalData } from "../utils/global-data";
 
@@ -17,8 +18,55 @@ export default function SideProjects() {
       <main className="w-full mt-12"></main>
       <h1 className="mt-4 font-bold text-2xl mb-4">Side Projects</h1>
       {/* Side Project content */}
-      {/* ShopGreen */}
+      {/* KUG Beer Festival Website */}
       <Card>
+        <div>
+          <h2 className="text-xl font-semibold">Charity Beer Festival App</h2>
+          <h3 className="mb-4 text-sm italic">January 2023</h3>
+
+          <div className="md:flex md:flex-row">
+            <div className="basis-[1600px]">
+              <Image src={beerTastingImage} alt="ShopGreen's interface" />
+            </div>
+            <p className="md:ml-4 mt-2">
+              During my downtime in the Christmas study break, I helped the
+              local Scouts and Guides group update their website and digitise
+              the beer list for this year&lsquo;s Beer Festival. This involved
+              creating a mobile-focused web app that allows users to see the
+              tasting notes for each beer and rank it. There is then a
+              leaderboard where users can see their top beers and how their
+              ranking stacks up against the average.
+            </p>
+          </div>
+
+          <p className="mt-4">
+            Whilst saving paper and money, this also gives the group a greater
+            insight into which beers were popular so they can plan the next
+            year&lsquo;s selection accordingly. I used an older tech stack to
+            reduce costs and allow this new app to be integrated straight into
+            their existing WordPress site.
+          </p>
+          <p className="mt-4">
+            If you&lsquo;d like to try it for yourself, you can check it out{" "}
+            <a
+              className="underline text-purple-400"
+              href="https://www.kug.org.uk/beer-tasting-notes"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              here
+            </a>
+            .
+          </p>
+          <p className="mt-4 italic">
+            Technologies: PHP, HTML, CSS, JavaScript, MySQL
+          </p>
+        </div>
+      </Card>
+
+      {/* ShopGreen */}
+      {/* 
+        <Card>
         <div>
           <h2 className="text-xl font-semibold">ShopGreen</h2>
           <h3 className="mb-4 text-sm italic">January 2022 -</h3>
@@ -61,6 +109,8 @@ export default function SideProjects() {
           </p>
         </div>
       </Card>
+      */}
+
       {/* GOBI */}
       <Card>
         <div>
