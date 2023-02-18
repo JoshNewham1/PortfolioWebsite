@@ -6,7 +6,6 @@ import NavBar from "../components/NavBar";
 import SEO from "../components/SEO";
 import gobiImage from "../public/gobi.png";
 import beerTastingImage from "../public/kug-beer-tasting.jpg";
-import shopgreenImage from "../public/shopgreen.png";
 import { getGlobalData } from "../utils/global-data";
 
 export default function SideProjects() {
