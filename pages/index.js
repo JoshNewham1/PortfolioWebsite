@@ -20,7 +20,10 @@ export default function Index({ posts, globalData }) {
   const [skillSearch, setSkillSearch] = useState("");
   return (
     <Layout>
-      <SEO title={globalData.name} description={globalData.blogTitle} />
+      <SEO
+        title="Portfolio • Josh Newham"
+        description="A portfolio of my work history, skills and projects"
+      />
       <NavBar />
       <Header name={globalData.name} />
       <main className="w-full"></main>

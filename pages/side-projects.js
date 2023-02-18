@@ -13,7 +13,10 @@ export default function SideProjects() {
   const globalData = getGlobalData();
   return (
     <Layout>
-      <SEO title={globalData.name} description={globalData.blogTitle} />
+      <SEO
+        title="Side Projects • Josh Newham"
+        description="A list of side-projects I've done and what I've learnt along the way"
+      />
       <NavBar />
       <main className="w-full mt-12"></main>
       <h1 className="mt-4 font-bold text-2xl mb-4">Side Projects</h1>
