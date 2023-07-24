@@ -18,7 +18,7 @@ export default function Blog({ posts, currentPage, pages, globalData }) {
       <NavBar />
       <main className="w-full mt-12"></main>
       <h1 className="mt-4 font-bold text-2xl mb-4">Blog Posts</h1>
-      <ul className="w-full">
+      <ul className="w-full pl-4 pr-4">
         {posts &&
           posts.map((post, i) => (
             <li
