@@ -1,30 +1,36 @@
-import { getGlobalData } from '../../utils/global-data';
+import { getGlobalData } from "../../utils/global-data";
 import {
   getNextPostBySlug,
   getPostBySlug,
   getPreviousPostBySlug,
   postFilePaths,
-} from '../../utils/mdx-utils';
+} from "../../utils/mdx-utils";
 
-import { MDXRemote } from 'next-mdx-remote';
-import Head from 'next/head';
-import Link from 'next/link';
-import ArrowIcon from '../../components/ArrowIcon';
-import CustomLink from '../../components/CustomLink';
-import Footer from '../../components/Footer';
-import Header from '../../components/Header';
-import Layout, { GradientBackground } from '../../components/Layout';
-import SEO from '../../components/SEO';
+import { MDXRemote } from "next-mdx-remote";
+import Head from "next/head";
+import Link from "next/link";
+import ArrowIcon from "../../components/ArrowIcon";
+import CustomLink from "../../components/CustomLink";
+import Footer from "../../components/Footer";
+import Layout, { GradientBackground } from "../../components/Layout";
+import SEO from "../../components/SEO";
+import NavBar from "../../components/NavBar";
+import Image from "next/image";
 
 // Custom components/renderers to pass to MDX.
 // Since the MDX files aren't loaded by webpack, they have no knowledge of how
 // to handle import statements. Instead, you must include components in scope
 // here.
 const components = {
-  a: CustomLink,
-  // It also works with dynamically-imported components, which is especially
-  // useful for conditionally loading components for certain routes.
-  // See the notes in README.md for more details.
+  a: (props) => (
+    // Always open links in new tab
+    <CustomLink {...props} target="_blank" rel="noopener noreferrer" />
+  ),
+  NextImage: (props) => (
+    <div className="flex justify-center">
+      <Image {...props} loading="lazy" />
+    </div>
+  ),
   Head,
 };
 
@@ -41,21 +47,30 @@ export default function PostPage({
         title={`${frontMatter.title} - ${globalData.name}`}
         description={frontMatter.description}
       />
-      <Header name={globalData.name} />
-      <article className="px-6 md:px-0">
+      <NavBar />
+      <article className="px-6 md:px-0 mt-12">
+        {/* Header text - title, separator, date & author, description */}
         <header>
-          <h1 className="text-3xl md:text-5xl dark:text-white text-center mb-12">
+          <h1 className="text-3xl md:text-5xl dark:text-white text-center mb-8">
             {frontMatter.title}
           </h1>
+          <hr className="w-1/4 ml-auto mr-auto mt-4 mb-4" />
+          <h3 className="text-center mb-4">
+            {frontMatter.date} &#183; {frontMatter.author ?? "Josh Newham"}
+          </h3>
           {frontMatter.description && (
-            <p className="text-xl mb-4">{frontMatter.description}</p>
+            <p className="text-xl text-center mt-8 mb-8">
+              {frontMatter.description}
+            </p>
           )}
         </header>
+        {/* Rendered Markdown content */}
         <main>
           <article className="prose dark:prose-dark">
             <MDXRemote {...source} components={components} />
           </article>
         </main>
+        {/* Footer with next and previous posts */}
         <div className="grid md:grid-cols-2 lg:-mx-24 mt-12">
           {prevPost && (
             <Link href={`/posts/${prevPost.slug}`}>
@@ -118,7 +133,7 @@ export const getStaticProps = async ({ params }) => {
 export const getStaticPaths = async () => {
   const paths = postFilePaths
     // Remove file extensions for page paths
-    .map((path) => path.replace(/\.mdx?$/, ''))
+    .map((path) => path.replace(/\.mdx?$/, ""))
     // Map the path into the static paths object required by Next.js
     .map((slug) => ({ params: { slug } }));
 

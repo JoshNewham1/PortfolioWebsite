@@ -1,12 +1,13 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-import { serialize } from 'next-mdx-remote/serialize';
-import rehypePrism from '@mapbox/rehype-prism';
-import remarkGfm from 'remark-gfm';
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import { serialize } from "next-mdx-remote/serialize";
+import rehypePrism from "@mapbox/rehype-prism";
+import remarkGfm from "remark-gfm";
 
 // POSTS_PATH is useful when you want to get the path to a specific file
-export const POSTS_PATH = path.join(process.cwd(), 'posts');
+export const POSTS_PATH = path.join(process.cwd(), "posts");
+export const PAGE_SIZE = 10;
 
 // postFilePaths is the list of all mdx files inside the POSTS_PATH directory
 export const postFilePaths = fs
@@ -22,7 +23,7 @@ export const sortPostsByDate = (posts) => {
   });
 };
 
-export const getPosts = () => {
+export const getPosts = (pageNum, category) => {
   let posts = postFilePaths.map((filePath) => {
     const source = fs.readFileSync(path.join(POSTS_PATH, filePath));
     const { content, data } = matter(source);
@@ -34,9 +35,19 @@ export const getPosts = () => {
     };
   });
 
-  posts = sortPostsByDate(posts);
+  const numPosts = posts.length;
 
-  return posts;
+  // This sorting and filtering should ideally be done in a DBMS so it scales with lots of posts
+  // However, there are cost implications and it's a bit overkill for my little blog!
+  posts = sortPostsByDate(posts).filter(
+    (p) => !category || p.data?.category === category
+  );
+
+  if (pageNum) {
+    posts = posts.slice((pageNum - 1) * PAGE_SIZE, pageNum * PAGE_SIZE);
+  }
+
+  return { posts, numPosts };
 };
 
 export const getPostBySlug = async (slug) => {
@@ -58,7 +69,7 @@ export const getPostBySlug = async (slug) => {
 };
 
 export const getNextPostBySlug = (slug) => {
-  const posts = getPosts();
+  const posts = getPosts().posts;
   const currentFileName = `${slug}.mdx`;
   const currentPost = posts.find((post) => post.filePath === currentFileName);
   const currentPostIndex = posts.indexOf(currentPost);
@@ -67,7 +78,7 @@ export const getNextPostBySlug = (slug) => {
   // no prev post found
   if (!post) return null;
 
-  const nextPostSlug = post?.filePath.replace(/\.mdx?$/, '');
+  const nextPostSlug = post?.filePath.replace(/\.mdx?$/, "");
 
   return {
     title: post.data.title,
@@ -76,7 +87,7 @@ export const getNextPostBySlug = (slug) => {
 };
 
 export const getPreviousPostBySlug = (slug) => {
-  const posts = getPosts();
+  const posts = getPosts().posts;
   const currentFileName = `${slug}.mdx`;
   const currentPost = posts.find((post) => post.filePath === currentFileName);
   const currentPostIndex = posts.indexOf(currentPost);
@@ -85,7 +96,7 @@ export const getPreviousPostBySlug = (slug) => {
   // no prev post found
   if (!post) return null;
 
-  const previousPostSlug = post?.filePath.replace(/\.mdx?$/, '');
+  const previousPostSlug = post?.filePath.replace(/\.mdx?$/, "");
 
   return {
     title: post.data.title,

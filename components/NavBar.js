@@ -9,6 +9,9 @@ export default function NavBar() {
       <span className="mr-8 font-bold">
         <Link href="/api/cv">CV</Link>
       </span>
+      <span className="mr-8 font-bold">
+        <Link href="/blog/1">Blog</Link>
+      </span>
       <span className="font-bold">
         <Link href="/side-projects">Side Projects</Link>
       </span>
