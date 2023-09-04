@@ -1,0 +1,232 @@
+---
+title: Power Pages Migration
+description: "The steps in migrating Power Pages (and Power Apps) to another tenant"
+date: September 04 2023
+category: "Power Platform"
+---
+
+- [Background](#background)
+- [The Migration](#the-migration)
+  - [1. Licences](#1-licences)
+  - [2. Provisioning](#2-provisioning)
+  - [3. Migrating Websites](#3-migrating-websites)
+  - [4. Migrating Customisations](#4-migrating-customisations)
+  - [5. Data Migration](#5-data-migration)
+  - [6. End-to-end Testing](#6-end-to-end-testing)
+  - [7. Go Live 🚀](#7-go-live-)
+- [Conclusion](#conclusion)
+
+# Background
+
+About a year ago, one of our clients had quite a time-sensitive situation - there was a company hosting
+an invoice remittance portal that had gone bust and there was a need for a replacement within a month.
+This was an almost textbook example for where a no/low code technology stack is perfect, so we chose Power Pages and went down that route.
+However, we did not have the time or permissions to set this up under their existing Microsoft tenant so had to temporarily
+set it up under ours (we were dealing with public IT infrastructure, so you can imagine how long that might've taken!)
+
+This portal ran for almost a year on our tenant and was continually customised with new features and changes. Now all the
+kinks have been worked out and essential features added, it's about time to give them access and start upskilling their
+IT team on how to maintain and update the system.
+
+# The Migration
+
+Not a lot exists on the internet about migrating Dataverse environments between tenants, and even less regarding
+Power Pages, so we started by listing the moving parts and working out a plan on how to migrate them from A to B. This is a rough
+guide on what to think about and a few pitfalls we ran into along the way. **A diagram summarising what needed doing when and how long it might take is available [here](/pp-migration.pdf).**
+
+## 1. Licences
+
+To help identify the moving parts, existing licences are always a good starting point. They may not cover everything that
+needs to be moved, but most must be in place before you can move. For us, the licences looked like this:
+
+- 5000 Power Pages Authenticated Logins
+- Power Apps Per User Licence for the service account
+  - To run all the flows
+- Power BI Premium Per User Licence for the service account
+  - To run the automated reporting
+- Microsoft 365 Business Basic for the service account
+  - Needed to provide SharePoint storage for temporary files used in the portal
+- Inboxes
+  - 5 inboxes were needed to send various operational emails from the portal
+- Azure Storage account and SSH key
+  - We used SFTP to update the portal with a nightly extract
+
+From here, we formulated an [action plan](/pp-migration.pdf) of what needed doing when with high-level tasks and estimates.
+
+## 2. Provisioning
+
+When you've got the licences figured out, contact your Azure AD administrator (usually your IT admin) and get a new
+tenant set up for you to start migrating to. They'll need to follow these steps and eventually give you access
+to a user account with the Power Platform Administrator role:
+
+1. Provision a new tenant
+   - They will need to know a new tenant name for this (x.onmicrosoft.com)
+2. Purchase the licences you've outlined in the previous step
+3. Create a new user account and assign it a Power Apps per User licence and the Power Platform Administrator role
+
+Then, the rest of the process needs a Power Platform Developer, preferably someone with knowledge of the solution and customisations that you're trying to migrate.
+
+4. Create Dataverse environments
+   - This is done in the Power Platform Admin Centre
+   - The environments should match what you've got in the source tenant. However, if you've not got a `DEV`, `TEST` and `PROD` environment, it might be a good opportunity to create them
+   - Ensure any non-production environment is created as a "Sandbox"
+   - You should get 10GB of included database storage with the new tenant
+5. Create any SharePoint sites used in the previous solution _(optional)_
+   - We found that creating a blank site and copying over the content was the easiest way
+   - Keeping the names the same also simplified the migration
+
+## 3. Migrating Websites
+
+Now you've got the blank environments, you'll need to migrate the portal(s). The order of this isn't important, you can migrate the customisations (flows, dataflows etc.) first but we found it easier to have the website in place first to test the customisations. The process for migrating websites is a bit strange, but relatively well documented by Microsoft [here](https://learn.microsoft.com/en-us/power-pages/admin/migrate-site-configuration?tabs=sol#prepare-the-target-environment). You'll essentially need to create a blank site (to get Microsoft's Power Pages solutions), delete the site but not Site Management, transfer metadata with Power Platform CLI and recreate site from website records.
+
+1. Create blank Power Pages sites in all your environments
+   - The URLs will have to be temporarily different from the live sites. We just added a '2' to the end of each
+2. Migrate the website configuration
+   - We used the Power Platform CLI to do this as we were already using it for our version control
+   - With hindsight, I'd recommend using the XrmToolbox [Portal Records Mover plugin](https://www.xrmtoolbox.com/plugins/MscrmTools.PortalRecordsMover/)
+   - If anything fails to migrate, you may have to manually recreate it in your `DEV` environment and then copy across to `TEST` and `PROD`. This happened for us with a Page Template
+3. Convert the sites to "Production"
+   - This is done in the Power Platform Admin Centre
+   - It can be done at any point in the process however it's _very_ easy to forget so we'd recommend doing it now and getting it out of the way. The websites will be down for approx. 10 minutes so you should do it before the switch
+   - There's no cost implication yet, it just stops the website from being auto-deleted after 30 days
+4. Check all websites are accessible and working
+   - There will be no data / users but you should be able to create one in Portal Management and log in to see that all the pages are accessible
+
+## 4. Migrating Customisations
+
+Now comes the trickiest part - getting all the flows, dataflows, Power BI reports and any other customisations you've done over to the new tenant to make things work. Depending on the number of items, this can take several days after the export / import to ensure everything is working and pointed to the relevant data sources in the new tenant. For example, with 20 flows, 10 dataflows, 4 Power BI reports and an Azure SFTP server, it took us 2-3 days to get everything up and running in the new tenant. If you've got more than a few trivial items to migrate, we'd recommend listing everything that needs to be in a solution and any steps you'll need to take after migrating to ensure it works in the new tenant (switching over connections etc.) as the complexity of this part of the process is heavily dependent on the nature of the customisations you've done, how they've been done and how many have been done.
+
+1. Add everything from your source tenant to a solution
+   - All tables, flows, choices and dataflows need to be in a solution to be migrated across
+   - Instant flows or ones that run on a schedule might need to be recreated in the solution manually to show up. There's currently no way of adding existing ones to a solution 🙁
+2. Export and import the solution to `DEV` on the new tenant
+   - Do this as "unmanaged"
+3. Switch over all dynamic IDs in flows
+   - Any flow with dynamic dropdowns in the steps will need all steps tweaking after migration to repoint it. This is because these dropdowns actually map to IDs which will no longer be valid. For example, for flows using Excel, you'll need to change all the dropdowns to ones pointing at files in the new tenant
+     <NextImage src="/pp-flow-repoint.png" width="343" height="150" />
+   - **This is relevant for all flows using SharePoint, Excel, Power BI or dataflow steps**
+4. Disable the same flows in `DEV` and `TEST` that are currently disabled (if applicable)
+5. Export the solution from `DEV` as managed and then import to `TEST` and `PROD`
+   - If you are using environment variables, set them to the relevant values for each environment
+   - Test each flow in `PROD` to make sure it's working
+   - Importing as managed is optional but recommended. If you weren't already doing it, now's a perfect time to make the change
+6. Migrate Power BI reports
+   - This is a simple "lift and shift" from the old tenant
+   - If you've not done already, it's a good time to parametrise the data sources. To do this, create a new parameter for the connection details in Power BI Desktop and replace any hard-coded details with the parameter. This will make it easier to create reports for `DEV`, `TEST` and `PROD`
+     <NextImage src="/pp-pbi-parameter-1.png" width="518" height="350" />
+     <br />
+     <NextImage src="/pp-pbi-parameter-2.png" width="1267" height="150" />
+   - I'd recommend creating `DEV`, `TEST` and `PROD` workspaces pointing at their respective Dataverse environments. If Power BI Premium is feasible, you can then create deployment pipelines between them which should make developing reports smoother and easier
+
+## 5. Data Migration
+
+At this point, your code should be in the new tenant and working (as far as you know). The next step is to get all the data across. If you've got tables that are exact copies of the data source, you can leave those for now and focus on tables that have been building over time. For example, our Invoices table was a direct copy of the extract sent over every day so we didn't need to worry about this until the end. It's crucial at this point to make a plan of which custom tables need their data migrating and when as there's often dependencies between tables with relationships etc. Our plan looked something like this:
+
+| Table Name        | Description                                                                    | Order                  | Needs Created Date                         |
+| ----------------- | ------------------------------------------------------------------------------ | ---------------------- | ------------------------------------------ |
+| Email Addresses   | A table of email addresses to send tickets raised through the portal           | 1 - Dimensions         | No                                         |
+| Ticket Types      | A table of types of tickets users can send                                     | 1 - Dimensions         | No                                         |
+| Account           | All the suppliers we have invoices for                                         | 2 - Users and Accounts | No                                         |
+| Contact           | All the users registered on the portal                                         | 2 - Users and Accounts | Yes. Need createdat for reporting purposes |
+| Supplier Accounts | All the suppliers linked to a user                                             | 3 - Security           | No                                         |
+| Invitations       | All the invitations sent out for user registration. The `adx_invitation` table | 3 - Security           | Yes. Need createdat for reporting purposes |
+| Invoices          | The main fact table with all the invoices                                      | 4 - Invoice Load       | No                                         |
+| Activity Log      | Auxiliary information on which features users are using for reporting purposes | 5 - Misc Logs          | Yes. Need createdat for reporting purposes |
+
+The reason for the "Created Date" column is that you'll need to use a separate load process to keep it for those tables that require it (as you'll see later on).
+
+1. Create a plan similar to the one above for your solution
+2. Disable any flows triggered by inserting records
+3. Create a new dataflow in `DEV` on the new tenant
+   - Use the Dataverse connector and connect to the current tenant's `PROD` environment
+   - Add in all the tables that **don't** need an accurate `createdat` date
+   - We'd also recommend migrating the ID column and using that as your unique key for each table. It just makes the migration quicker, easier and more accurate
+   - We set ours out like this, putting each table into folders based on the order and adding placeholders for tables that need `createdat` so we didn't forget them:
+     {" "}
+     <NextImage src="/pp-migration-dataflow.png" width="136" height="176" />
+4. Create data exports for tables that need an accurate `createdat` date
+   - Any tables that need `createdat` need to be handled separately using the Data Import feature in Advanced settings instead of a dataflow
+   - To get ready for this, you'll need CSV exports of each. We did this by loading them into Power BI Desktop and then using DAX Studio to export from the desktop to CSV
+5. Map and run the dataflow
+   - Map each of the tables in the dataflow and set the key column to be the ID column
+   - Make sure to disable and enable load on tables if the order matters
+   - If you have large tables, it might be best to wait until out-of-hours to do the migration to reduce the performance impact on the live system
+6. Use the Dynamics Data Import tool for the `createdat` extracts
+   - To get to this, go to Power Apps > cog in the top-right > Advanced settings > the little down arrow next to Settings > Data Management > Imports
+   - Ensure all the relevant options are mapped, for example this is what the `adx_invitation` mappings looked like:
+     {" "}
+     <NextImage
+       src="/pp-migration-manual-mapping.png"
+       width="418"
+       height="430"
+     />
+   - Disable duplicate detection - this detects duplicates in **any column** which isn't very useful!
+   - The primary key should keep you safe from duplicates
+7. Migrate Many:Many records
+   - If you have created any many-to-many relationships, or have used Web Roles for authorisation, you'll need to migrate these separately. A bridging table is created in the Dataverse that looks a bit like the below, but it can't be migrated without a special tool:
+
+| User |   Web Role    |
+| :--: | :-----------: |
+|  Me  | Administrator |
+|  Me  |   Supplier    |
+| ...  |      ...      |
+
+- The tool we used was ["NN Relationship Manager"](https://www.xrmtoolbox.com/plugins/Javista.XrmToolBox.ManageNN/) for XrmToolbox and it worked well to migrate our 7000 users' web roles
+
+8. Spot check the results and then repeat for `TEST` and `PROD`environments
+
+- You may want to put the dataflow in its own solution to move it between the environments
+
+An important note: **passwords cannot be migrated between tenants if you are using local authentication**. Every user will have to reset their password (the hash salt is different on the new tenant and cannot be changed so it won't recognise any hashed passwords in the database if you migrate them). We handled this by **not** migrating the password column in the Contact table, sending out communications and placing a warning box on the login page. If you haven't already moved away from local authentication, it might be worth considering migrating to Azure B2C before migrating tenants to make the process a bit smoother for users.
+
+<NextImage src="/pp-migration-password.png" width="923" height="197" />
+
+## 6. End-to-end Testing
+
+The final and most important step before flicking the switch is systematically testing all areas of the system to ensure all features work. We did this by writing unit tests for all out-of-the-box features (logging in, resetting passwords etc.) and any features we'd added on. You'll ideally have multiple users test the functionality still works and every single flow, dataflow and page should be checked. I've outlined an example test script below, but you'll need to add specifics for custom features you've created.
+
+| Test ID | Feature            | Test Case                                                                                     | Prerequisites                                                           | Expected Result                                                             | Pass / Fail | Comments |
+| ------- | ------------------ | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | --------------------------------------------------------------------------- | ----------- | -------- |
+| 1       | Forgotten Password | User has forgotten a password and requests a reset                                            | An existing user and email address you have access to                   | User receives an email with a link that allows them to reset their password | Pass        |          |
+| 2       | Log In             | Existing user can log in with their email and password (after resetting it on the new tenant) | An existing user who has already reset their password on the new tenant | User can log in and view their invoices                                     | Pass        |          |
+
+A more complete example in Excel is available [here](/pp-migration-unit-tests.xlsx).
+
+1. Write unit tests for all your features and the out-of-the-box functionality
+   - These should cover all flows, dataflows and pages
+2. Have multiple end users test the new tenant from the front-end
+   - Ensure their access and visible data reconciles to the old system
+3. Perform a manual export and reconciliation of the fact table(s) between tenants
+4. If any bugs, fix and retest
+
+Once all the tests have passed and you have sign off from the main stakeholders, you can move on to the next step: the go live.
+
+## 7. Go Live 🚀
+
+When you're happy everything is migrated and working, it's time to do a "cutover" to get everything switched over to the new tenant. We did this on a Friday evening out of business hours to give ourselves the weekend if anything went drastically wrong. Before starting, I worked with a project manager to put together a cutover plan and document the steps to roll back if disaster did strike! It looked something like this:
+
+<NextImage src="/pp-migration-cutover-plan.png" width="696" height="392" />
+<br />
+
+After planning, the steps we followed were:
+
+1. We prepared and sent communications to the users (if they needed to reset their password etc.)
+2. Perform final data migration out of hours
+   - This ensures no data is changing in the system so the old and new tenant are the same
+   - Follow the same process you did in [step 5](#5-data-migration)
+3. Perform a final sanity check
+   - Has all the data gone in OK?
+   - Do all the unit tests still pass?
+4. If it has passed the sanity check, switch the domains so all users will be using the new tenant transparently
+   - This can be done in the Power Platform Admin Centre > Resources > Power Pages sites > the site you want to change > the pencil next to the URL
+   - Repoint the old tenant's domains to temporary ones to free up the URL
+   - Repoint the new tenant's domains to the new ones (after about 5 minutes)
+   - This takes 1-2 hours to fully propagate and another 1-2 hours to revert
+   - Check the new tenant is accessible from the old URL (after 1-2 hours)
+   - More details are available [here](https://powerusers.microsoft.com/t5/General-Discussions/Power-Pages-Tenant-Migration-Using-Same-URL/m-p/2196696)
+
+All this went pretty much without a hitch for us after putting in the work up front to plan and test fully.
+
+# Conclusion
+
+Well done for making it all the way through! I hope this article has been useful or interesting to _someone_. I scoured high and low for some kind of guide or documentation on migrating Power Apps / Power Pages tenants before embarking on this journey and couldn't find anything anywhere. Happy devving!

@@ -14,8 +14,17 @@ import CustomLink from "../../components/CustomLink";
 import Footer from "../../components/Footer";
 import Layout, { GradientBackground } from "../../components/Layout";
 import SEO from "../../components/SEO";
+import Header from "../../components/Header";
 import NavBar from "../../components/NavBar";
 import Image from "next/image";
+import {
+  MDXH1,
+  MDXH2,
+  MDXH3,
+  MDXH4,
+  MDXH5,
+  MDXH6,
+} from "../../components/mdx/MDXHeaders";
 
 // Custom components/renderers to pass to MDX.
 // Since the MDX files aren't loaded by webpack, they have no knowledge of how
@@ -24,13 +33,23 @@ import Image from "next/image";
 const components = {
   a: (props) => (
     // Always open links in new tab
-    <CustomLink {...props} target="_blank" rel="noopener noreferrer" />
+    <CustomLink
+      {...props}
+      target={props.href?.includes("#") ? "_self" : "_blank"}
+      rel="noopener noreferrer"
+    />
   ),
   NextImage: (props) => (
     <div className="flex justify-center">
       <Image {...props} loading="lazy" />
     </div>
   ),
+  h1: MDXH1,
+  h2: MDXH2,
+  h3: MDXH3,
+  h4: MDXH4,
+  h5: MDXH5,
+  h6: MDXH6,
   Head,
 };
 
@@ -66,7 +85,7 @@ export default function PostPage({
         </header>
         {/* Rendered Markdown content */}
         <main>
-          <article className="prose dark:prose-dark">
+          <article className="prose dark:prose-invert max-w-full">
             <MDXRemote {...source} components={components} />
           </article>
         </main>
