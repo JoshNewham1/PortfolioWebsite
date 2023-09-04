@@ -15,7 +15,6 @@ category: "Power Platform"
   - [6. End-to-end Testing](#6-end-to-end-testing)
   - [7. Go Live 🚀](#7-go-live-)
 - [Conclusion](#conclusion)
-<br />
 # Background
 
 About a year ago, one of our clients had quite a time-sensitive situation - there was a company hosting
@@ -187,10 +186,7 @@ An important note: **passwords cannot be migrated between tenants if you are usi
 
 The final and most important step before flicking the switch is systematically testing all areas of the system to ensure all features work. We did this by writing unit tests for all out-of-the-box features (logging in, resetting passwords etc.) and any features we'd added on. You'll ideally have multiple users test the functionality still works and every single flow, dataflow and page should be checked. I've outlined an example test script below, but you'll need to add specifics for custom features you've created.
 
-| Test ID | Feature            | Test Case                                                                                     | Prerequisites                                                           | Expected Result                                                             | Pass / Fail | Comments |
-| ------- | ------------------ | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | --------------------------------------------------------------------------- | ----------- | -------- |
-| 1       | Forgotten Password | User has forgotten a password and requests a reset                                            | An existing user and email address you have access to                   | User receives an email with a link that allows them to reset their password | Pass        |          |
-| 2       | Log In             | Existing user can log in with their email and password (after resetting it on the new tenant) | An existing user who has already reset their password on the new tenant | User can log in and view their invoices                                     | Pass        |          |
+<NextImage src="/pp-migration-unit-tests.png" width="726" height="131" />
 
 A more complete example in Excel is available [here](/pp-migration-unit-tests.xlsx).
 

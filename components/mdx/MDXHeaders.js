@@ -1,7 +1,7 @@
 function getAnchor(headerText) {
   return headerText
     .toLowerCase()
-    .replace(/[^a-z0-9 ]/g, "") // Remove non-alphanumeric characters
+    .replace(/[^a-z0-9- ]/g, "") // Remove non-alphanumeric characters
     .replace(/[ ]/g, "-"); // Replace spaces with '-'
 }
 
