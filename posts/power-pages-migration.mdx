@@ -1,7 +1,7 @@
 ---
 title: Power Pages Migration
 description: "The steps in migrating Power Pages (and Power Apps) to another tenant"
-date: September 04 2023
+date: August 05 2023
 category: "Power Platform"
 ---
 
@@ -15,7 +15,7 @@ category: "Power Platform"
   - [6. End-to-end Testing](#6-end-to-end-testing)
   - [7. Go Live 🚀](#7-go-live-)
 - [Conclusion](#conclusion)
-
+<br />
 # Background
 
 About a year ago, one of our clients had quite a time-sensitive situation - there was a company hosting
@@ -177,6 +177,8 @@ The reason for the "Created Date" column is that you'll need to use a separate l
 
 - You may want to put the dataflow in its own solution to move it between the environments
 
+9. Re-enable the flows you disabled when importing data
+
 An important note: **passwords cannot be migrated between tenants if you are using local authentication**. Every user will have to reset their password (the hash salt is different on the new tenant and cannot be changed so it won't recognise any hashed passwords in the database if you migrate them). We handled this by **not** migrating the password column in the Contact table, sending out communications and placing a warning box on the login page. If you haven't already moved away from local authentication, it might be worth considering migrating to Azure B2C before migrating tenants to make the process a bit smoother for users.
 
 <NextImage src="/pp-migration-password.png" width="923" height="197" />
@@ -209,7 +211,6 @@ When you're happy everything is migrated and working, it's time to do a "cutover
 <br />
 
 After planning, the steps we followed were:
-
 1. We prepared and sent communications to the users (if they needed to reset their password etc.)
 2. Perform final data migration out of hours
    - This ensures no data is changing in the system so the old and new tenant are the same
