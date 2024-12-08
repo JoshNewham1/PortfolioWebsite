@@ -57,7 +57,7 @@ export default function Pagination({ numPages, currentPage, basePath }) {
   }, [numPages, currentPage, INACTIVE_PAGES, DOTS]);
 
   return (
-    <div>
+    (<div>
       {paginationLinks?.map((pageNum, i) => {
         let slug = pageNum;
         if (pageNum === DOTS && i === 1) {
@@ -69,21 +69,22 @@ export default function Pagination({ numPages, currentPage, basePath }) {
         }
 
         return (
-          <Link key={`pagination-${i}`} href={`${basePath}/${slug}`}>
-            <a
-              className={
-                "px-4 py-2 mr-2  dark:text-white rounded " +
-                // Highlight if current page
-                (currentPage == pageNum
-                  ? "bg-purple-500 text-white"
-                  : "text-black hover:bg-purple-500 hover:text-white")
-              }
-            >
-              {pageNum}
-            </a>
-          </Link>
+          (<Link
+            key={`pagination-${i}`}
+            href={`${basePath}/${slug}`}
+            className={
+              "px-4 py-2 mr-2  dark:text-white rounded " +
+              // Highlight if current page
+              (currentPage == pageNum
+                ? "bg-purple-500 text-white"
+                : "text-black hover:bg-purple-500 hover:text-white")
+            }>
+
+            {pageNum}
+
+          </Link>)
         );
       })}
-    </div>
+    </div>)
   );
 }

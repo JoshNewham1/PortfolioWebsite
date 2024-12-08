@@ -28,7 +28,7 @@ export default function Index({ posts, globalData }) {
       <Header name={globalData.name} />
       <main className="w-full"></main>
       <Image src={profilePic} alt="A picture of me!" width={150} height={150} />
-      <div className="logo-group mt-4 flex-row">
+      <div className="logo-group mt-4 flex flex-row">
         <a
           className="mr-2"
           href="https://www.linkedin.com/in/josh-n-688619189/"

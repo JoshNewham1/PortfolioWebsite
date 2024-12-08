@@ -10,7 +10,7 @@ import Pagination from "../../components/Pagination";
 
 export default function Blog({ posts, currentPage, pages, globalData }) {
   return (
-    <Layout>
+    (<Layout>
       <SEO
         title="Blog • Josh Newham"
         description="A list of my most recent blog posts"
@@ -28,33 +28,32 @@ export default function Blog({ posts, currentPage, pages, globalData }) {
               <Link
                 as={`/posts/${post.filePath.replace(/\.mdx?$/, "")}`}
                 href={`/posts/[slug]`}
-              >
-                <a className="py-6 lg:py-10 px-6 lg:px-16 block focus:outline-none focus:ring-4">
-                  {post.data.date && (
-                    <span className="uppercase mb-3 font-bold opacity-60">
-                      {post.data.date}
-                    </span>
-                  )}
-                  {post.data.category && (
-                    <span className="uppercase mb-3 font-bold opacity-60">
-                      &nbsp;&#183;&nbsp;{post.data.category}
-                    </span>
-                  )}
-                  <h2 className="text-2xl md:text-3xl">{post.data.title}</h2>
-                  {post.data.description && (
-                    <p className="mt-3 text-lg opacity-60">
-                      {post.data.description}
-                    </p>
-                  )}
-                  <ArrowIcon className="mt-4" />
-                </a>
+                className="py-6 lg:py-10 px-6 lg:px-16 block focus:outline-none focus:ring-4">
+
+                {post.data.date && (
+                  <span className="uppercase mb-3 font-bold opacity-60">
+                    {post.data.date}
+                  </span>
+                )}
+                {post.data.category && (
+                  <span className="uppercase mb-3 font-bold opacity-60">
+                    &nbsp;&#183;&nbsp;{post.data.category}
+                  </span>
+                )}
+                <h2 className="text-2xl md:text-3xl">{post.data.title}</h2>
+                {post.data.description && (
+                  <p className="mt-3 text-lg opacity-60">
+                    {post.data.description}
+                  </p>
+                )}
+                <ArrowIcon className="mt-4" />
+
               </Link>
             </li>
           ))}
       </ul>
       <Pagination numPages={pages} currentPage={currentPage} basePath="/blog" />
       <Footer copyrightText={globalData.footerText} />
-
       <GradientBackground
         variant="large"
         className="fixed top-20 opacity-40 dark:opacity-60"
@@ -63,7 +62,7 @@ export default function Blog({ posts, currentPage, pages, globalData }) {
         variant="small"
         className="absolute bottom-0 opacity-20 dark:opacity-10"
       />
-    </Layout>
+    </Layout>)
   );
 }
 
