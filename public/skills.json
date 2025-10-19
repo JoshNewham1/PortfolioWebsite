@@ -50,8 +50,8 @@
         },
         {
           "name": "C#",
-          "skillLevel": 3,
-          "description": "C# was one of the first languages I learnt and I enjoy using it for little side projects, but I haven't used it in any large project or productionised any C# code."
+          "skillLevel": 4,
+          "description": "I have used C# in a few side projects and a Proof of Delivery automation project with Sage 200's Spindle library."
         },
         {
           "name": "Haskell",
@@ -66,7 +66,7 @@
         {
           "name": "SQL",
           "skillLevel": 5,
-          "description": "I've used SQL consistently for a few years and thoroughly enjoy writing and optimising queries for BI reporting. I've worked with all the major RDBMSs and am comfortable with Microsoft SQL Server, PostgreSQL, MySQL and Oracle syntax."
+          "description": "I've used SQL consistently for years and thoroughly enjoy writing and optimising queries for BI reporting. I've worked with all the major RDBMSs and am comfortable with Microsoft SQL Server, PostgreSQL, MySQL and Oracle syntax."
         },
         {
           "name": "MongoDB",
@@ -75,13 +75,18 @@
         },
         {
           "name": "ETL",
-          "skillLevel": 3,
-          "description": "When building reports for clients, I'd often have to consider the technical architecture of their databases to ensure that the desired reports were possible and performant. This involved using ETL tools such as Power BI dataflows to perform ETL and ensure the data was in the correct format to report on."
+          "skillLevel": 5,
+          "description": "When building reports for clients, I'd often have to consider the technical architecture of their databases to ensure that the desired reports were possible and performant. This involved using ETL tools such as Azure Data Factory and Power BI dataflows to perform ETL and ensure the data was in the correct format to report on."
         },
         {
           "name": "Power BI",
           "skillLevel": 5,
           "description": "I became very fluent in using Power BI and the DAX query language to visualise data, present insights and create professional reports. I also headed a training programme and helped other clients learn SQL and design Power BI reports."
+        },
+        {
+          "name": "Azure Data Factory",
+          "skillLevel": 5,
+          "description": "I have implemented robust Azure Data Factory pipelines for multiple clients over OAuth 2.0 APIs with pagination. Often, this was used to orchestrate automation or to maintain a data warehouse for reporting."
         }
       ]
     },
@@ -90,7 +95,7 @@
       "skills": [
         {
           "name": "Power Apps",
-          "skillLevel": 4,
+          "skillLevel": 5,
           "description": "To offer useful and cost-effective solutions to smaller clients, I would use Power Apps to create fully validated apps for data manipulation in databases. This included an app currently used on the factory floor to replace paper production sheets and calculate machine throughput and efficiency."
         },
         {
