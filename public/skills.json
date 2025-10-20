@@ -54,6 +54,11 @@
           "description": "I have used C# in a few side projects and a Proof of Delivery automation project with Sage 200's Spindle library."
         },
         {
+          "name": "Java",
+          "skillLevel": 3,
+          "description": "I have used Java throughout my university career and enjoyed its performance, object-oriented design, and amazing cross-platform support."
+        },
+        {
           "name": "Haskell",
           "skillLevel": 3,
           "description": "I have learnt Haskell as part of a functional programming course at university and love its type system and focus on batch-processing."
