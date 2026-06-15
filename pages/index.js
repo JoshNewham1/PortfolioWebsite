@@ -58,11 +58,9 @@ export default function Index({ posts, globalData }) {
       <h2 className="mt-4 font-bold text-xl">Bio</h2>
       <div className="bio mr-4 ml-4 mt-4 border-2 rounded-md border-black dark:border-white">
         <p className="p-4">
-          A budding software consultant with experience in web development,
-          solutions design and databases. I love working in teams, solving
-          real-world problems and delivering meaningful change. Learning new
-          technologies along the way is always enjoyable as I progress towards
-          becoming a full-stack developer.
+          An experienced, full-stack software consultant with experience in AI, web development,
+          solution design and databases. I love working in teams, solving
+          real-world problems and delivering meaningful change.
         </p>
       </div>
 

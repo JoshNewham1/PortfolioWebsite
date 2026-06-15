@@ -5,18 +5,18 @@
       "skills": [
         {
           "name": "React",
-          "skillLevel": 3,
+          "skillLevel": 4,
           "description": "I have a few years' experience using React in my own projects to produce responsive, modern web apps. It is mostly self-taught through a book and some YouTube tutorials. I have never used it in a production environment but feel confident I could productionise my code."
         },
         {
           "name": "Next JS",
-          "skillLevel": 3,
+          "skillLevel": 4,
           "description": "Along with React JS, I have used Next JS as the full-stack solution for a number of my personal projects. I love the performance and simplicity of Next JS and it has become a core part of my tech stack for any new web-based projects."
         },
         {
           "name": "CSS",
           "skillLevel": 4,
-          "description": "While I am more comfortable with the back-end, I have been learning CSS and UI principles with a view of becoming a full-stack developer in the future. I'm confident using flex boxes, animations and media queries to create responsive websites."
+          "description": "While I am more comfortable with the back-end, I'm confident using flex boxes, animations and media queries to create responsive websites."
         },
         {
           "name": "HTML",
@@ -35,18 +35,13 @@
       "skills": [
         {
           "name": "Python",
-          "skillLevel": 4,
-          "description": "I have experience using Python for data manipulation and web backends and understand both procedural and object-oriented paradigms. I have particular experience in the Pandas, SciKit-Learn and Flask."
-        },
-        {
-          "name": "JavaScript",
           "skillLevel": 5,
-          "description": "I have the most experience with JavaScript, and have used it primarily with Node JS for to build API servers. I have successfully integrated weighing scales in a factory and built many web apps with JavaScript and am very comfortable with ES6 and best practices."
+          "description": "I have experience using Python for AI, data manipulation and web backends and understand both procedural and object-oriented paradigms. I have particular experience in the Pandas, SciKit-Learn and Flask, and have used it with uv and Docker in production."
         },
         {
-          "name": "TypeScript",
-          "skillLevel": 4,
-          "description": "Having recognised some of the weaknesses of JavaScript's type system, I taught myself TypeScript to build more robust production apps. I have built a couple of side projects in this way and find it really enjoyable and worth the time investment."
+          "name": "JavaScript / TypeScript",
+          "skillLevel": 5,
+          "description": "My strongest languages, used primarily with React and Node.js. I adopted TypeScript after recognising JavaScript's type system limitations. I am comfortable with ES6 and have used JavaScript everywhere from an NHS web portal to a set of weighing scales in a factory!"
         },
         {
           "name": "C#",
@@ -62,6 +57,11 @@
           "name": "Haskell",
           "skillLevel": 3,
           "description": "I have learnt Haskell as part of a functional programming course at university and love its type system and focus on batch-processing."
+        },
+        {
+          "name": "C",
+          "skillLevel": 3,
+          "description": "I have experience writing C for performance-critical applications. My university dissertation, pg_forecast, was a PostgreSQL plugin written in ~1500 lines of C that provided in-database forecasting. I have not yet used C in production."
         }
       ]
     },
@@ -107,6 +107,26 @@
           "name": "Power Pages",
           "skillLevel": 5,
           "description": "I am confident in developing / customising Microsoft Power Pages after using it to build a low-code invoice portal for an NHS client that focused on development speed and reliability. I guided the client through the licensing model and the portal is currently serving thousands of suppliers."
+        }
+      ]
+    },
+    {
+      "name": "Cloud platforms",
+      "skills": [
+        {
+          "name": "Azure",
+          "skillLevel": 5,
+          "description": "Over the past few years, I have architected and deployed multiple production projects with Azure using Bicep. I am confident in providing accurate quotes and selecting the most cost-effective services."
+        },
+        {
+          "name": "AWS",
+          "skillLevel": 4,
+          "description": "I have used AWS in personal projects (a property market scraper) and the Applied Cloud Programming university course, with Terraform for IaC. I am confident, but it may take longer to quote and set up than an Azure project"
+        },
+        {
+          "name": "Google Cloud Platform",
+          "skillLevel": 3,
+          "description": "I have only used GCP for small-scale AI projects. Best practices from Azure and AWS would also apply here, but it may take longer to quote and set up."
         }
       ]
     }
